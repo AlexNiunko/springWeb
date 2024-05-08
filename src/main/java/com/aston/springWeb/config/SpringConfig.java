@@ -1,16 +1,24 @@
 package com.aston.springWeb.config;
 
+
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
+
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -23,6 +31,7 @@ public class SpringConfig implements WebMvcConfigurer {
     public SpringConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
+
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
@@ -41,6 +50,7 @@ public class SpringConfig implements WebMvcConfigurer {
         return templateEngine;
     }
 
+
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
@@ -48,4 +58,11 @@ public class SpringConfig implements WebMvcConfigurer {
         registry.viewResolver(resolver);
     }
 
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        MappingJackson2HttpMessageConverter messageConverter=new MappingJackson2HttpMessageConverter();
+        messageConverter.setObjectMapper(new JsonMapper());
+        messageConverter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));
+        converters.add(messageConverter);
+    }
 }
