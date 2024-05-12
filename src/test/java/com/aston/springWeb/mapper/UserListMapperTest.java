@@ -14,12 +14,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringJUnitWebConfig
 @ContextConfiguration(classes = SpringConfig.class)
 class UserListMapperTest {
-
     @Autowired
-    UserMapper mapper;
+    private UserMapper mapper;
 
     @Test
     void toEntityList() {
+        mapper.getClass();
 
     }
 

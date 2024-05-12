@@ -34,7 +34,7 @@ public class DatabaseConfig {
         return dataSource;
     }
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
         HibernateJpaVendorAdapter adapter=new HibernateJpaVendorAdapter();
         adapter.setGenerateDdl(true);
         adapter.setShowSql(true);
@@ -54,7 +54,7 @@ public class DatabaseConfig {
     @Bean
     public PlatformTransactionManager transactionManager(){
        JpaTransactionManager transactionManager=new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
     }
 }
