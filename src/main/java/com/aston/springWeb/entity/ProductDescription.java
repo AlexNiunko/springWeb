@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.Objects;
+
 @Entity
 @Table(name="product_descriptions", schema = "tool_box")
 public class ProductDescription {
@@ -78,6 +80,18 @@ public class ProductDescription {
 
     public void setIssueDate(LocalDate issueDate) {
         this.issueDate = issueDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductDescription that)) return false;
+        return getId() == that.getId() && getProductId() == that.getProductId() && getCountryOfOrigin().equals(that.getCountryOfOrigin()) && getType().equals(that.getType()) && getBrand().equals(that.getBrand()) && getIssueDate().equals(that.getIssueDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getProductId(), getCountryOfOrigin(), getType(), getBrand(), getIssueDate());
     }
 
     @Override

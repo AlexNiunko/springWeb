@@ -3,6 +3,8 @@ package com.aston.springWeb.entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
+
 @Entity
 @Table(name="users",schema = "tool_box")
 public class User {
@@ -96,6 +98,18 @@ public class User {
 
     public void setOrders(List<Sale> orders) {
         this.orders = orders;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return getId() == user.getId() && getUsersRole() == user.getUsersRole() && getLogin().equals(user.getLogin()) && getPassword().equals(user.getPassword()) && getName().equals(user.getName()) && getSurname().equals(user.getSurname());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getLogin(), getPassword(), getName(), getSurname(), getUsersRole());
     }
 
     @Override

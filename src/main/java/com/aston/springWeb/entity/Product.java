@@ -3,6 +3,7 @@ package com.aston.springWeb.entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "products",schema = "tool_box")
@@ -82,12 +83,24 @@ public class Product {
         this.buyers = buyers;
     }
 
-    public List<Sale> getOrders() {
+    public List<Sale> getSales() {
         return sales;
     }
 
-    public void setOrders(List<Sale> sales) {
+    public void setSales(List<Sale> sales) {
         this.sales = sales;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product product)) return false;
+        return getId() == product.getId() && Double.compare(product.getProductPrice(), getProductPrice()) == 0 && getAmount() == product.getAmount() && getProductName().equals(product.getProductName()) && getDescription().equals(product.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getProductName(), getProductPrice(), getAmount(), getDescription());
     }
 
     @Override
@@ -98,8 +111,6 @@ public class Product {
         sb.append(", productPrice=").append(productPrice);
         sb.append(", amount=").append(amount);
         sb.append(", description=").append(description);
-        sb.append(", buyers=").append(buyers);
-        sb.append(", orders=").append(sales);
         sb.append('}');
         return sb.toString();
     }
